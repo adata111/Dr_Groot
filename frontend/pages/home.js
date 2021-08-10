@@ -17,12 +17,12 @@ export default function Home({ navigation }){
       }
   return (
     <ImageBackground
-        source={require('./home1.jpg')}
+        source={require('./home.png')}
         style={styles.back}>
         <View style={styles.container}>
-            <Text style={styles.title}>Dr Groot</Text>
-            <Text style={styles.subtitle}>Your Personal</Text>
-            <Text style={styles.subtitle}>Plant Doctor</Text>
+            <Text style={styles.title}>Dr. Groot</Text>
+            <Text style={styles.subtitle}>Your Personal Plant Doctor</Text>
+            {/* <Text style={styles.subtitle}>Plant Doctor</Text> */}
             <TouchableOpacity style={ styles.button }>
                 <Text style={ styles.buttonText } onPress={__startCamera}>Check My Plant</Text>
             </TouchableOpacity>
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
    flex: 1,
    alignSelf: 'stretch',
    alignItems: 'center',
-   backgroundColor: 'rgba(255,255,255,0.3)',
+   backgroundColor: 'rgba(255,255,255,0)',
    justifyContent: 'center',
    paddingLeft: 60,
    paddingRight: 60,

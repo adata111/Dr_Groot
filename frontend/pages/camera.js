@@ -1,6 +1,6 @@
 import {StatusBar} from 'expo-status-bar'
 import React from 'react'
-import {StyleSheet, Text, View, TouchableOpacity, Alert, ImageBackground, Image} from 'react-native'
+import {StyleSheet, Text, View, TouchableOpacity, Alert, ImageBackground, Image, Touchable} from 'react-native'
 import {Camera} from 'expo-camera'
 let camera = Camera
 export default function CameraPage() {
@@ -26,7 +26,10 @@ export default function CameraPage() {
     //setStartCamera(false)
     setCapturedImage(photo)
   }
-  const __savePhoto = () => {}
+  const __savePhoto = () => {
+
+      SendFileToBackend(capturedImage.uri)
+  }
   const __retakePicture = () => {
     setCapturedImage(null)
     setPreviewVisible(false)
@@ -199,11 +202,39 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  previewButtons: {
+    alignItems: "center",
+    paddingVertical: 10,
+    margin: 5,
+    paddingHorizontal: 15,
+    borderRadius: 25,
+    alignSelf: 'stretch',
+    alignItems: 'center',
+    padding: 20,
+    backgroundColor: '#2ba189',
+    borderColor: 'black',
+    borderWidth: 2,
+    borderRadius: 5,
+    marginBottom: 10,
   }
 })
 
+const SendFileToBackend = (uri) => {
+    console.log(uri);
+    const form = new FormData();
+    form.append("Files", {
+      name: "SampleFile.jpg", // Whatever your filename is
+      uri: uri, 
+      type: "image/jpg", // video/mp4 for videos..or image/png etc...
+    });
+  
+    // Perform a Post request to backend server by putting `form` in the Body of the request
+  };
+  
+
 const CameraPreview = ({photo, retakePicture, savePhoto}) => {
-  console.log('sdsfds', photo)
+  console.log('preview', photo)
   return (
     <View
       style={{
@@ -235,13 +266,7 @@ const CameraPreview = ({photo, retakePicture, savePhoto}) => {
           >
             <TouchableOpacity
               onPress={retakePicture}
-              style={{
-                width: 130,
-                height: 40,
-
-                alignItems: 'center',
-                borderRadius: 4
-              }}
+              style={styles.previewButtons}
             >
               <Text
                 style={{
@@ -254,13 +279,7 @@ const CameraPreview = ({photo, retakePicture, savePhoto}) => {
             </TouchableOpacity>
             <TouchableOpacity
               onPress={savePhoto}
-              style={{
-                width: 130,
-                height: 40,
-
-                alignItems: 'center',
-                borderRadius: 4
-              }}
+              style={styles.previewButtons}
             >
               <Text
                 style={{
@@ -268,7 +287,7 @@ const CameraPreview = ({photo, retakePicture, savePhoto}) => {
                   fontSize: 20
                 }}
               >
-                save photo
+                Save and Analyze
               </Text>
             </TouchableOpacity>
           </View>
