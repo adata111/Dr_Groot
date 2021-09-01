@@ -1,5 +1,6 @@
 import 'react-native-gesture-handler';
 import * as React from "react";
+import { useEffect, useState } from 'react';
 import { StyleSheet,Text, View, TouchableOpacity, ImageBackground} from "react-native";
 import {Camera} from 'expo-camera';
 export default function Home({ navigation }){
@@ -15,6 +16,28 @@ export default function Home({ navigation }){
           Alert.alert('Access denied')
         }
       }
+
+      const [currentTime, setCurrentTime] = useState(0);
+
+  useEffect(() => {
+    fetch('https://34e4-2409-4042-81c-fd4d-9ddd-14ea-eb41-e4dd.ngrok.io/time', {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': '*'
+      }
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log(data);
+      setCurrentTime(data.time);
+    
+    });
+
+  }, []);
+
   return (
     <ImageBackground
         source={require('./home.png')}
@@ -29,6 +52,7 @@ export default function Home({ navigation }){
             <TouchableOpacity style={ styles.button }>
                 <Text style={ styles.buttonText }>Gallery</Text>
             </TouchableOpacity>
+            <Text>The current time is {currentTime}.</Text>
         </View>
     </ImageBackground>
    );

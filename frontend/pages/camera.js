@@ -27,7 +27,6 @@ export default function CameraPage() {
     setCapturedImage(photo)
   }
   const __savePhoto = () => {
-
       SendFileToBackend(capturedImage.uri)
   }
   const __retakePicture = () => {
@@ -223,16 +222,31 @@ const styles = StyleSheet.create({
 const SendFileToBackend = (uri) => {
     console.log(uri);
     const form = new FormData();
-    form.append("Files", {
+    form.append("pic", {
       name: "SampleFile.jpg", // Whatever your filename is
-      uri: uri, 
+      uri: Platform.OS === "android" ? uri : uri.replace("file://", ""), 
       type: "image/jpg", // video/mp4 for videos..or image/png etc...
     });
   
     // Perform a Post request to backend server by putting `form` in the Body of the request
+    fetch('https://4e90-2409-4042-81c-fd4d-9ddd-14ea-eb41-e4dd.ngrok.io/upload', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-type': 'multipart/form-data, application/json',
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': '*'
+      },
+      body: JSON.stringify({'pic':"123"})
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log(data);
+      setCurrentTime(1000);
+    });
+
   };
   
-
 const CameraPreview = ({photo, retakePicture, savePhoto}) => {
   console.log('preview', photo)
   return (
