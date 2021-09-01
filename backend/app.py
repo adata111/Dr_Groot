@@ -246,3 +246,38 @@ def predict(img_path):
 
 print(predict("dataset/test/PotatoEarlyBlight2.JPG"))
 
+@app.route('/time')
+def get_current_time():
+    ans = predict("dataset/test/PotatoEarlyBlight2.JPG")
+    return {'time': ans}
+
+@app.route('/upload', methods=['POST'])
+def upload():
+    print("hi")
+    print(request)
+    print("hi")
+    pic = request.files['pic']
+    if not pic:
+        return 'No pic uploaded!', 400
+
+    filename = secure_filename(pic.filename)
+    mimetype = pic.mimetype
+    if not filename or not mimetype:
+        return 'Bad upload!', 400
+
+    pic.save(os.path.join('./uploads', filename))
+
+    img = Img(img=pic.read(), name=filename, mimetype=mimetype)
+    db.session.add(img)
+    db.session.commit()
+
+    return {'messaage':'Img Uploaded!'}
+
+
+@app.route('/<int:id>')
+def get_img(id):
+    img = Img.query.filter_by(id=id).first()
+    if not img:
+        return 'Img Not Found!', 404
+
+    return Response(img.img, mimetype=img.mimetype)
