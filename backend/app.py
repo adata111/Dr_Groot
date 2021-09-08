@@ -57,13 +57,12 @@ class Dataset():
                 else:
                     break
 
-        print(reference)
+        # print(reference)
         return labels,images
       
     def __len__(self):
         return len(self.labels)
     
-
     # To return x,y values in each iteration over dataloader as batches.
     def __getitem__(self, idx):
         return (
@@ -81,7 +80,7 @@ class ValDataset(Dataset):
           resize = transforms.Compose([transforms.Resize((256,256))])
           main_dir = os.listdir(os.path.join("dataset","valid"))
           for i,dir in enumerate(main_dir):
-              print(i,dir)
+            #   print(i,dir)
               images_list = os.listdir(os.path.join("dataset","valid",dir))
               local_cnt = 0
               for img in images_list:
@@ -114,14 +113,12 @@ class Network(nn.Module):
         self.fc2 = nn.Linear(in_features=240,out_features=120)
         self.out = nn.Linear(in_features=120,out_features=22)
         
-        
     def forward(self,t):
         t = t
         
         t=self.conv1(t)
         t=F.relu(t)
         t=F.max_pool2d(t,kernel_size = 2, stride = 2)
-        
         
         t=self.conv2(t)
         t=F.relu(t)
@@ -138,7 +135,6 @@ class Network(nn.Module):
         t=t.reshape(-1,48*12*12)
         t=self.fc1(t)
         t=F.relu(t)
-        
         
         t=self.fc2(t)
         t=F.relu(t)
@@ -228,8 +224,8 @@ with open('labels.json', 'rb') as ir:
 # with open('labels.json', 'wb') as iw:
 #     pickle.dump(reference, iw)
 
-# #Save the trained model
-# torch.save(model.state_dict(), "model.pth")
+#Save the trained model
+torch.save(model.state_dict(), "model.pth")
 
 # prediction function to test
 def predict(img_path):
@@ -240,7 +236,6 @@ def predict(img_path):
     result_idx = y_result.argmax(dim=1)
     for key,value in reference.items():
         if(value==result_idx):
-            print(key)
             return key
             # break
 

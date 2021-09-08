@@ -24,7 +24,7 @@ export default function App(){
       <Stack.Navigator initialRouteName="Home">
         <Stack.Screen name="Camera" component={CameraPage}/>
         <Stack.Screen name="Home" component={Home}/>
-        {/* <Stack.Screen name="Gallery" component={Gallery}/> */}
+        <Stack.Screen name="Gallery" component={Gallery}/>
       </Stack.Navigator>
     </NavigationContainer>
    );
