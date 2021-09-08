@@ -248,25 +248,30 @@ def get_current_time():
 
 @app.route('/upload', methods=['POST'])
 def upload():
-    print("hi")
-    print(request)
-    print("hi")
-    pic = request.files['pic']
-    if not pic:
-        return 'No pic uploaded!', 400
+    # print("hi")
+    # print(request)
+    # print("hi")
+    # pic = request.files['pic']
+    # if not pic:
+    #     return 'No pic uploaded!', 400
 
-    filename = secure_filename(pic.filename)
-    mimetype = pic.mimetype
-    if not filename or not mimetype:
-        return 'Bad upload!', 400
+    # filename = secure_filename(pic.filename)
+    # mimetype = pic.mimetype
+    # if not filename or not mimetype:
+    #     return 'Bad upload!', 400
 
-    pic.save(os.path.join('./uploads', filename))
+    # pic.save(os.path.join('./uploads', filename))
 
-    img = Img(img=pic.read(), name=filename, mimetype=mimetype)
-    db.session.add(img)
-    db.session.commit()
+    # img = Img(img=pic.read(), name=filename, mimetype=mimetype)
+    # db.session.add(img)
+    # db.session.commit()
 
-    return {'messaage':'Img Uploaded!'}
+    # return {'messaage':'Img Uploaded!'}
+    if(request.method == "POST"):
+        bytesOfImage = request.get_data()
+        with open('image.jpeg', 'wb') as out:
+            out.write(bytesOfImage)
+        return "Image read"
 
 
 @app.route('/<int:id>')

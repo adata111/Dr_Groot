@@ -24,7 +24,7 @@ export default function Home({ navigation }){
       const [currentTime, setCurrentTime] = useState(0);
 
   useEffect(() => {
-    fetch('https://34e4-2409-4042-81c-fd4d-9ddd-14ea-eb41-e4dd.ngrok.io/time', {
+    fetch('https://88b2-5-69-247-201.ngrok.io/time', {
       method: 'GET',
       headers: {
         'Accept': 'application/json',

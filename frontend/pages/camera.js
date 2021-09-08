@@ -2,6 +2,7 @@ import {StatusBar} from 'expo-status-bar'
 import React from 'react'
 import {StyleSheet, Text, View, TouchableOpacity, Alert, ImageBackground, Image, Touchable} from 'react-native'
 import {Camera} from 'expo-camera'
+import * as FS from 'expo-file-system';
 let camera = Camera
 export default function CameraPage() {
   const [startCamera, setStartCamera] = React.useState(true)
@@ -27,7 +28,8 @@ export default function CameraPage() {
     setCapturedImage(photo)
   }
   const __savePhoto = () => {
-      SendFileToBackend(capturedImage.uri)
+      // SendFileToBackend(capturedImage.uri)
+      toServer(capturedImage);
   }
   const __retakePicture = () => {
     setCapturedImage(null)
@@ -219,6 +221,39 @@ const styles = StyleSheet.create({
   }
 })
 
+uriToBase64 = async (uri) => {
+  let base64 = await FS.readAsStringAsync(uri, {
+    encoding: FS.EncodingType.Base64,
+  });
+  return base64;
+};
+
+toServer = async (mediaFile) => {
+  let type = mediaFile.type;
+  let schema = "http://";
+  let host = "192.168.1.6";
+  let route = "";
+  let port = "5000";
+  let url = "";
+  let content_type = "";
+  type === "image"
+    ? ((route = "/image"), (content_type = "image/jpeg"))
+    : ((route = "/video"), (content_type = "video/mp4"));
+  // url = schema + host + ":" + port + route;
+  url = 'https://88b2-5-69-247-201.ngrok.io/upload';
+
+  let response = await FS.uploadAsync(url, mediaFile.uri, {
+    headers: {
+      "content-type": content_type,
+    },
+    httpMethod: "POST",
+    uploadType: FS.FileSystemUploadType.BINARY_CONTENT,
+  });
+
+  console.log(response.headers);
+  console.log(response.body);
+};
+
 const SendFileToBackend = (uri) => {
     console.log(uri);
     const form = new FormData();
@@ -229,7 +264,7 @@ const SendFileToBackend = (uri) => {
     });
   
     // Perform a Post request to backend server by putting `form` in the Body of the request
-    fetch('https://4e90-2409-4042-81c-fd4d-9ddd-14ea-eb41-e4dd.ngrok.io/upload', {
+    fetch('https://88b2-5-69-247-201.ngrok.io/upload', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -286,21 +321,18 @@ const CameraPreview = ({photo, retakePicture, savePhoto}) => {
                 style={{
                   color: '#fff',
                   fontSize: 20
-                }}
-              >
+                }}>
                 Re-take
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
               onPress={savePhoto}
-              style={styles.previewButtons}
-            >
+              style={styles.previewButtons}>
               <Text
                 style={{
                   color: '#fff',
                   fontSize: 20
-                }}
-              >
+                }}>
                 Save and Analyze
               </Text>
             </TouchableOpacity>
