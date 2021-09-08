@@ -281,3 +281,14 @@ def get_img(id):
         return 'Img Not Found!', 404
 
     return Response(img.img, mimetype=img.mimetype)
+
+@app.route("/save", methods=['GET', 'POST'])
+def image():
+    if(request.method == "POST"):
+        bytesOfImage = request.get_data()
+        timeStr = time.ctime()
+        "".join(timeStr.split())
+        with open('./uploads/'+timeStr + '.jpeg', 'wb') as out:
+            out.write(bytesOfImage)
+        return "Image read"
+

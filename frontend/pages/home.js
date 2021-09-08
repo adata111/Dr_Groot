@@ -21,6 +21,11 @@ export default function Home({ navigation }){
       navigation.navigate('Gallery');
       console.log('HELLO HELLO');
     }
+
+    const __startChecking = async () => {
+      navigation.navigate('CheckPlant');
+      console.log('HELLO ');
+    }
       const [currentTime, setCurrentTime] = useState(0);
 
   useEffect(() => {
@@ -37,7 +42,6 @@ export default function Home({ navigation }){
     .then(data => {
       console.log(data);
       setCurrentTime(data.time);
-      {/* <Stack.Screen name="Gallery" component={Gallery}/> */}
     
     });
 
@@ -50,8 +54,7 @@ export default function Home({ navigation }){
         <View style={styles.container}>
             <Text style={styles.title}>Dr. Groot</Text>
             <Text style={styles.subtitle}>Your Personal Plant Doctor</Text>
-            {/* <Text style={styles.subtitle}>Plant Doctor</Text> */}
-            <TouchableOpacity style={ styles.button } onPress={__startCamera}>
+            <TouchableOpacity style={ styles.button } onPress={__startChecking}>
                 <Text style={ styles.buttonText }>Check My Plant</Text>
             </TouchableOpacity>
             <TouchableOpacity style={ styles.button } onPress={__startGallery}>
