@@ -6,6 +6,8 @@ import CameraPage from './camera.js';
 import Gallery from './gallery.js';
 import Home from './home.js';
 import CheckPlant from './check_plant.js';
+import Shophome from './shop_home.js';
+import Shoplist from './shop_list.js';
 
 const HomeStk = createStackNavigator();
 
@@ -42,6 +44,7 @@ export function ShopStack({navigation}){
                 color="blue" 
                 style={{ margin: 7,}} /></TouchableOpacity>)
 		}} />
+        <ShopStk.Screen name="Shop List" component={Shoplist}/>
 	</ShopStk.Navigator>
 	)
 }

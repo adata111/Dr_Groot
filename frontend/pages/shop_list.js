@@ -4,36 +4,7 @@ import { Card, CardItem } from 'react-native-elements';
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, ImageBackground, ScrollView, Image, Button } from "react-native";
 export default function Shoplist({ navigation }) {
-  const __startGallery = async () => {
-    navigation.navigate('Gallery');
-    console.log('HELLO HELLO');
-  }
-
-  const __startChecking = async () => {
-    navigation.navigate('CheckPlant');
-    console.log('HELLO ');
-  }
-  const [currentTime, setCurrentTime] = useState(0);
-
-  useEffect(() => {
-    fetch('https://88b2-5-69-247-201.ngrok.io/time', {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': '*'
-      }
-    })
-      .then(res => res.json())
-      .then(data => {
-        console.log(data);
-        setCurrentTime(data.time);
-
-      });
-
-  }, []);
-
+  
   return (
     <View style={styles.container}>
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>

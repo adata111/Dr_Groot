@@ -23,7 +23,7 @@ export default function App(){
       <Stack.Navigator initialRouteName="Login">
         <Stack.Screen name="Login" component={Login}/>
         <Stack.Screen name="SignUp" component={Signup}/>
-        <Stack.Screen name="Loading" component={Loading}/>
+        <Stack.Screen name="Loading" component={Loading} options={{headerShown:false}}/>
       </Stack.Navigator>
     </NavigationContainer>
    );

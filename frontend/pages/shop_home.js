@@ -1,19 +1,8 @@
 import 'react-native-gesture-handler';
 import * as React from "react";
-import { useEffect, useState } from 'react';
-import { StyleSheet,Text, View, TouchableOpacity, ImageBackground, ScrollView} from "react-native";
+import { StyleSheet,Text, View, TouchableOpacity, ImageBackground} from "react-native";
 export default function Shophome({ navigation }){
-    const __startGallery = async () => {
-      navigation.navigate('Gallery');
-      console.log('HELLO HELLO');
-    }
-
-    const __startChecking = async () => {
-      navigation.navigate('CheckPlant');
-      console.log('HELLO ');
-    }
-      const [currentTime, setCurrentTime] = useState(0);
-
+    
   return (
     <ImageBackground
         source={require('./b5.jpg')}
