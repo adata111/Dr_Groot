@@ -134,18 +134,21 @@ export default function CheckPlant({ navigation }) {
 
       ) : (
         <ImageBackground
-          source={require('./home.png')}
+          source={require('./b4.jpg')}
           style={styles.back}>
           <View style={styles.container}>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={__startGallery}
-            >
-              <Text style={styles.buttonText}>Pick from Gallery</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={__startCamera}>
-              <Text style={styles.buttonText}>Click a Picture</Text>
-            </TouchableOpacity>
+            <View style={{marginTop: 150}}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={__startGallery}
+              >
+                <Text style={styles.buttonText}>Pick from Gallery</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.button} onPress={__startCamera}>
+                <Text style={styles.buttonText}>Click a Picture</Text>
+              </TouchableOpacity>
+            </View>
+
           </View>
         </ImageBackground>
       )}
@@ -286,7 +289,6 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 2,
     borderRadius: 5,
-    marginBottom: 10,
   },
 
   buttonText: {
