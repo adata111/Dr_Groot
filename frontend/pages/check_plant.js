@@ -94,7 +94,7 @@ export default function CheckPlant({ navigation }) {
     type === "image"
       ? ((route = "/image"), (content_type = "image/jpeg"))
       : ((route = "/video"), (content_type = "video/mp4"));
-    url = 'https://88b2-5-69-247-201.ngrok.io/save';
+    url = 'https://cf9a-2409-4042-2401-eb73-64fd-f23-d01d-5e92.ngrok.io/save';
     let response = await FS.uploadAsync(url, mediaFile.uri, {
       headers: {
         "content-type": content_type,
@@ -134,18 +134,21 @@ export default function CheckPlant({ navigation }) {
 
       ) : (
         <ImageBackground
-          source={require('./home.png')}
+          source={require('./b4.jpg')}
           style={styles.back}>
           <View style={styles.container}>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={__startGallery}
-            >
-              <Text style={styles.buttonText}>Pick from Gallery</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={__startCamera}>
-              <Text style={styles.buttonText}>Click a Picture</Text>
-            </TouchableOpacity>
+            <View style={{marginTop: 150}}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={__startGallery}
+              >
+                <Text style={styles.buttonText}>Pick from Gallery</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.button} onPress={__startCamera}>
+                <Text style={styles.buttonText}>Click a Picture</Text>
+              </TouchableOpacity>
+            </View>
+
           </View>
         </ImageBackground>
       )}
@@ -286,7 +289,6 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 2,
     borderRadius: 5,
-    marginBottom: 10,
   },
 
   buttonText: {
