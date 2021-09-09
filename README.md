@@ -15,7 +15,7 @@ Frontend has been coded in React Native and backend using Flask and the database
 - Scan the QR code shown in the browser using the expo app on your device.
 #### Backend
 - Navigate to backend folder and run `npm install`
-- Run `Flask run` to start the backend server
+- Run `flask run` to start the backend server
 
 ### Features:
 ##### Check plant feature
