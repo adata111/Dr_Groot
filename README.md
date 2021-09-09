@@ -7,22 +7,22 @@ Frontend has been coded in React Native and backend using Flask and the database
 
 ### How to run:
 
-* Frontend *
+#### Frontend
 - Install expo on your system.
 - install expo app on your android device
 - open the cloned folder and navigate to frontend folder on the terminal and run `yarn add`
 - Run `expo start` to start the frontend server
 - Scan the QR code shown in the browser using the expo app on your device.
-*Backend*
+#### Backend
 - Navigate to backend folder and run `npm install`
 
 ### Features:
-*Check plant feature*
-This allows us to either click a picture of the diseased plant using our phone's camera or lets us choose an image from our phone gallery. We can then save the image in the backend and analyze the image to get results​
+##### Check plant feature
+- This allows us to either click a picture of the diseased plant using our phone's camera or lets us choose an image from our phone gallery. We can then save the image in the backend and analyze the image to get results​
 
-*Gallery feature*
-This feature shows us all the analyzed images and their analysis results​
+##### Gallery feature
+- This feature shows us all the analyzed images and their analysis results​
 
-*Shops*
-This feature lets us browse through what near-by nurseries have to offer.​
-The app also provides information about how one can cure the plant​
+##### Shops
+- This feature lets us browse through what near-by nurseries have to offer.
+- The app also provides information about how one can cure the plant​
