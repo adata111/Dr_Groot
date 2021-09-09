@@ -1,9 +1,13 @@
 import 'react-native-gesture-handler';
 import * as React from "react";
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ImageBackground } from "react-native";
+import { StyleSheet, Text, TextInput, View, TouchableOpacity, ImageBackground } from "react-native";
 
 export default function Signup({ navigation }) {
+
+    const __submit = () =>{
+        navigation.navigate("Home");
+    }
     return (
         <ImageBackground
             source={require('./home.png')}
@@ -44,7 +48,7 @@ export default function Signup({ navigation }) {
                     secureTextEntry={true}
                 // onChange={(e) => this.setState({ pass: e.nativeEvent.text })}
                 />
-                <TouchableOpacity style={styles.button}>
+                <TouchableOpacity style={styles.button} onPress={__submit}>
                     <Text>Submit</Text>
                 </TouchableOpacity>
             </View>
