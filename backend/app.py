@@ -18,12 +18,16 @@ from pathlib import Path
 from werkzeug.utils import secure_filename
 from db import db_init, db
 from models import Img
+from flask_pymongo import PyMongo
 
 # os.system("wget https://github.com/nandakishormpai2001/Plant_Disease_Detector/raw/main/model/dataset.zip")
 # os.system("unzip dataset.zip")
 # os.system("pip install -r requirements.txt") 
 app = Flask(__name__)
-app.run(debug=True)
+app.config['MONGO_DBNAME'] = 'restdb'
+app.config['MONGO_URI'] = 'mongodb://localhost:27017/restdb'
+
+mongo = PyMongo(app)
 
 class Dataset():
     def __init__(self):
@@ -292,5 +296,8 @@ def image():
         with open(imgPath, 'wb') as out:
             out.write(bytesOfImage)
         ans = predict(imgPath)
-        return jsonify({'mess':True, 'result':ans, 'remedy':"help"})
+        remedy = "help"
+        user = mongo.db.users
+        user_id = user.insert({'filename': (timeStr+'.jpeg'), 'result': ans, 'remedy':remedy})
+        return jsonify({'mess':True, 'result':ans, 'remedy':remedy})
 
