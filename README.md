@@ -15,10 +15,11 @@ Frontend has been coded in React Native and backend using Flask and the database
 - Scan the QR code shown in the browser using the expo app on your device.
 #### Backend
 - Navigate to backend folder and run `npm install`
+- Run `Flask run` to start the backend server
 
 ### Features:
 ##### Check plant feature
-- This allows us to either click a picture of the diseased plant using our phone's camera or lets us choose an image from our phone gallery. We can then save the image in the backend and analyze the image to get results​
+- This allows us to either click a picture of the diseased plant using our phone's camera or lets us choose an image from our phone gallery. We can then save the image in the backend and analyze the image to get results
 
 ##### Gallery feature
 - This feature shows us all the analyzed images and their analysis results​
