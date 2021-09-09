@@ -94,7 +94,7 @@ export default function CheckPlant({ navigation }) {
     type === "image"
       ? ((route = "/image"), (content_type = "image/jpeg"))
       : ((route = "/video"), (content_type = "video/mp4"));
-    url = 'https://88b2-5-69-247-201.ngrok.io/save';
+    url = 'https://cee8-5-69-247-201.ngrok.io/save';
     let response = await FS.uploadAsync(url, mediaFile.uri, {
       headers: {
         "content-type": content_type,
@@ -239,7 +239,7 @@ const Results = ({ photo, details }) => {
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: 5.
+          padding: 5
         }}
       >
         <Text
