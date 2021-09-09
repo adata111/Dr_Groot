@@ -3,15 +3,19 @@ import * as React from "react";
 import { StyleSheet,Text, View, TouchableOpacity, ImageBackground} from "react-native";
 export default function Shophome({ navigation }){
     
+  const __openShops = () =>{
+    navigation.navigate("Shop List")
+  }
   return (
     <ImageBackground
         source={require('./b5.jpg')}
-        style={styles.back}>
+        style={styles.back}
+        imageStyle= {{opacity:0.7}}>
         <View style={styles.container}>
             <Text style={styles.title}>Presents</Text>
             <Text style={styles.title}>for Plants</Text>
             <Text style={styles.subtitle}>Plant care shops</Text>
-            <TouchableOpacity style={ styles.button }>
+            <TouchableOpacity style={ styles.button } onPress={__openShops}>
                 <Text style={ styles.buttonText }>Shops near me</Text>
             </TouchableOpacity>
         </View>
@@ -70,7 +74,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     paddingBottom: 10,
     marginBottom: 5,
-    color: 'white'
+    color: 'black'
 },
  });
 

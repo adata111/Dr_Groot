@@ -13,8 +13,8 @@ export default class Loading extends React.Component
   return(
   
     <Drawer.Navigator>
-      <Drawer.Screen name="Home" component={HomeStack} options={{headerShown:false}}/>
-      <Drawer.Screen name="Shop" component={ShopStack} options={{headerShown:false}}/>
+      <Drawer.Screen name="Home Page" component={HomeStack} options={{headerShown:false}}/>
+      <Drawer.Screen name="Shops Page" component={ShopStack} options={{headerShown:false}}/>
     </Drawer.Navigator>
   )
   

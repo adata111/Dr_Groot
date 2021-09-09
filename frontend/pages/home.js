@@ -1,4 +1,3 @@
-
 import 'react-native-gesture-handler';
 import * as React from "react";
 import { useEffect, useState } from 'react';
@@ -16,7 +15,7 @@ export default function Home({ navigation }){
       const [currentTime, setCurrentTime] = useState(0);
 
   useEffect(() => {
-    fetch('https://cee8-5-69-247-201.ngrok.io/time', {
+    fetch('https://88b2-5-69-247-201.ngrok.io/time', {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -29,17 +28,17 @@ export default function Home({ navigation }){
     .then(data => {
       console.log(data);
       setCurrentTime(data.time);
-    
+
     });
 
   }, []);
 
   return (
     <ImageBackground
-        source={require('./b5.jpg')}
+        source={require('./home.png')}
         style={styles.back}>
         <View style={styles.container}>
-            <Text style={styles.title}>Shopper's stop!</Text>
+            <Text style={styles.title}>Dr. Groot</Text>
             <Text style={styles.subtitle}>Your Personal Plant Doctor</Text>
             <TouchableOpacity style={ styles.button } onPress={__startChecking}>
                 <Text style={ styles.buttonText }>Check My Plant</Text>
@@ -97,7 +96,6 @@ const styles = StyleSheet.create({
       paddingBottom: 10,
       marginBottom: 20,
       borderBottomColor: 'black',
-      color: 'white',
       borderBottomWidth: 1,
   },
 
@@ -106,12 +104,5 @@ const styles = StyleSheet.create({
     fontSize: 20,
     paddingBottom: 10,
     marginBottom: 5,
-    color: 'white'
 },
  });
-
-
-
-
-
-
