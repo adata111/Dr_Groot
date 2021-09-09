@@ -1,7 +1,7 @@
-import {StatusBar} from 'expo-status-bar'
+import { StatusBar } from 'expo-status-bar'
 import React from 'react'
-import {StyleSheet, Text, View, TouchableOpacity, Alert, ImageBackground, Image, Touchable} from 'react-native'
-import {Camera} from 'expo-camera'
+import { StyleSheet, Text, View, TouchableOpacity, Alert, ImageBackground, Image, Touchable } from 'react-native'
+import { Camera } from 'expo-camera'
 import * as FS from 'expo-file-system';
 let camera = Camera
 export default function CameraPage() {
@@ -10,9 +10,11 @@ export default function CameraPage() {
   const [capturedImage, setCapturedImage] = React.useState(null)
   const [cameraType, setCameraType] = React.useState(Camera.Constants.Type.back)
   const [flashMode, setFlashMode] = React.useState('off')
+  const [detailsVisible, setDetailsVisible] = React.useState(false)
+  const [details, setDetails] = React.useState(null)
 
   const __startCamera = async () => {
-    const {status} = await Camera.requestPermissionsAsync()
+    const { status } = await Camera.requestPermissionsAsync()
     console.log(status)
     if (status === 'granted') {
       setStartCamera(true)
@@ -27,10 +29,26 @@ export default function CameraPage() {
     setCapturedImage(photo)
   }
   const __savePhoto = () => {
-      // SendFileToBackend(capturedImage.uri)
-      toServer(capturedImage);
+    prepare(capturedImage);
   }
-  
+
+  const prepare = async (result) => {   // prepare image for sending
+    if (result.type == "image") {
+      await toServer({
+        type: result.type,
+        base64: result.base64,
+        uri: result.uri,
+      });
+    } else {
+      let base64 = await uriToBase64(result.uri);
+      await toServer({
+        type: result.type,
+        base64: base64,
+        uri: result.uri,
+      });
+    }
+  }
+
   const __retakePicture = () => {
     setCapturedImage(null)
     setPreviewVisible(false)
@@ -52,6 +70,45 @@ export default function CameraPage() {
       setCameraType('back')
     }
   }
+
+  uriToBase64 = async (uri) => {
+    let base64 = await FS.readAsStringAsync(uri, {
+      encoding: FS.EncodingType.Base64,
+    });
+    return base64;
+  };
+  
+  toServer = async (mediaFile) => {
+    let type = mediaFile.type;
+    let route = "";
+    let url = "";
+    let content_type = "";
+    type === "image"
+      ? ((route = "/image"), (content_type = "image/jpeg"))
+      : ((route = "/video"), (content_type = "video/mp4"));
+    // url = schema + host + ":" + port + route;
+    url = 'https://88b2-5-69-247-201.ngrok.io/save';
+  
+    let response = await FS.uploadAsync(url, mediaFile.uri, {
+      headers: {
+        "content-type": content_type,
+      },
+      httpMethod: "POST",
+      uploadType: FS.FileSystemUploadType.BINARY_CONTENT,
+    });
+    resjson = JSON.parse(response.body);
+    if (response.body && resjson.mess) {
+      setDetailsVisible(true)
+      setDetails(resjson)
+      console.log(resjson)
+  
+    }
+    else {
+      Alert.alert('Something went wrong while trying to save and analyze. Pls try again!')
+    }
+  };
+  
+
   return (
     <View style={styles.container}>
       {startCamera ? (
@@ -62,12 +119,16 @@ export default function CameraPage() {
           }}
         >
           {previewVisible && capturedImage ? (
-            <CameraPreview photo={capturedImage} savePhoto={__savePhoto} retakePicture={__retakePicture} />
+            detailsVisible && details ? (
+              <Results photo={capturedImage} details={details} />
+            ) : (
+              <CameraPreview photo={capturedImage} savePhoto={__savePhoto} retakePicture={__retakePicture} />
+            )
           ) : (
             <Camera
               type={cameraType}
               flashMode={flashMode}
-              style={{flex: 1}}
+              style={{ flex: 1 }}
               ref={(r) => {
                 camera = r
               }}
@@ -221,68 +282,36 @@ const styles = StyleSheet.create({
   }
 })
 
-uriToBase64 = async (uri) => {
-  let base64 = await FS.readAsStringAsync(uri, {
-    encoding: FS.EncodingType.Base64,
-  });
-  return base64;
-};
-
-toServer = async (mediaFile) => {
-  let type = mediaFile.type;
-  let schema = "http://";
-  let host = "192.168.1.6";
-  let route = "";
-  let port = "5000";
-  let url = "";
-  let content_type = "";
-  type === "image"
-    ? ((route = "/image"), (content_type = "image/jpeg"))
-    : ((route = "/video"), (content_type = "video/mp4"));
-  // url = schema + host + ":" + port + route;
-  url = 'https://88b2-5-69-247-201.ngrok.io/upload';
-
-  let response = await FS.uploadAsync(url, mediaFile.uri, {
-    headers: {
-      "content-type": content_type,
-    },
-    httpMethod: "POST",
-    uploadType: FS.FileSystemUploadType.BINARY_CONTENT,
-  });
-
-  console.log(response.headers);
-  console.log(response.body);
-};
 
 const SendFileToBackend = (uri) => {
-    console.log(uri);
-    const form = new FormData();
-    form.append("pic", {
-      name: "SampleFile.jpg", // Whatever your filename is
-      uri: Platform.OS === "android" ? uri : uri.replace("file://", ""), 
-      type: "image/jpg", // video/mp4 for videos..or image/png etc...
-    });
-  
-    // Perform a Post request to backend server by putting `form` in the Body of the request
-    fetch('https://88b2-5-69-247-201.ngrok.io/upload', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-type': 'multipart/form-data, application/json',
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': '*'
-      },
-      body: JSON.stringify({'pic':"123"})
-    })
+  console.log(uri);
+  const form = new FormData();
+  form.append("pic", {
+    name: "SampleFile.jpg", // Whatever your filename is
+    uri: Platform.OS === "android" ? uri : uri.replace("file://", ""),
+    type: "image/jpg", // video/mp4 for videos..or image/png etc...
+  });
+
+  // Perform a Post request to backend server by putting `form` in the Body of the request
+  fetch('https://88b2-5-69-247-201.ngrok.io/upload', {
+    method: 'POST',
+    headers: {
+      'Accept': 'application/json',
+      'Content-type': 'multipart/form-data, application/json',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': '*'
+    },
+    body: JSON.stringify({ 'pic': "123" })
+  })
     .then(res => res.json())
     .then(data => {
       console.log(data);
       setCurrentTime(1000);
     });
 
-  };
-  
-const CameraPreview = ({photo, retakePicture, savePhoto}) => {
+};
+
+const CameraPreview = ({ photo, retakePicture, savePhoto }) => {
   console.log('preview', photo)
   return (
     <View
@@ -294,7 +323,7 @@ const CameraPreview = ({photo, retakePicture, savePhoto}) => {
       }}
     >
       <ImageBackground
-        source={{uri: photo && photo.uri}}
+        source={{ uri: photo && photo.uri }}
         style={{
           flex: 1
         }}
@@ -342,3 +371,50 @@ const CameraPreview = ({photo, retakePicture, savePhoto}) => {
     </View>
   )
 }
+
+const Results = ({ photo, details }) => {
+  return (
+    <View style={{
+      flex: 1,
+      alignSelf: 'stretch',
+      backgroundColor: 'rgba(255,255,255,0)',
+      paddingLeft: 60,
+      paddingRight: 60,
+      flexDirection: 'column'
+    }}>
+      <View style={{ flex: 3 / 4, marginTop: 10, padding: 5 }}>
+
+        <ImageBackground
+          style={{ width: '100%', height: '100%' }}
+          resizeMode='contain'
+          source={{ uri: photo && photo.uri }}
+
+        />
+      </View>
+      <View
+        style={{
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: 5
+        }}
+      >
+        <Text
+          style={{
+            color: '#3a3b3c',
+            fontSize: 20
+          }}>
+          {details.result}
+        </Text>
+        <Text
+          style={{
+            color: '#3a3b3c',
+            fontSize: 15
+          }}>
+          {details.remedy}
+        </Text>
+      </View>
+    </View>
+  )
+}
+
