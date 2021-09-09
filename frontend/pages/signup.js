@@ -6,7 +6,7 @@ import { StyleSheet, Text, TextInput, View, TouchableOpacity, ImageBackground } 
 export default function Signup({ navigation }) {
 
     const __submit = () =>{
-        navigation.navigate("Home");
+        navigation.navigate("Loading");
     }
     return (
         <ImageBackground

@@ -11,6 +11,7 @@ import Home from './pages/home.js';
 import CheckPlant from './pages/check_plant.js';
 import Login from './pages/login.js';
 import Signup from './pages/signup.js';
+import Loading from './pages/loading.js';
 
 const Stack = createStackNavigator();
 
@@ -22,10 +23,7 @@ export default function App(){
       <Stack.Navigator initialRouteName="Login">
         <Stack.Screen name="Login" component={Login}/>
         <Stack.Screen name="SignUp" component={Signup}/>
-        <Stack.Screen name="Camera" component={CameraPage}/>
-        <Stack.Screen name="Home" component={Home}/>
-        <Stack.Screen name="Gallery" component={Gallery}/>
-        <Stack.Screen name="CheckPlant" component={CheckPlant}/>
+        <Stack.Screen name="Loading" component={Loading}/>
       </Stack.Navigator>
     </NavigationContainer>
    );

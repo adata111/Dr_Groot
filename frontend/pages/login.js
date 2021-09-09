@@ -6,7 +6,7 @@ import { StyleSheet, Text, TextInput, View, TouchableOpacity, ImageBackground } 
 export default function Login({ navigation }) {
 
     const __login = () =>{
-        navigation.navigate("Home");
+        navigation.navigate("Loading");
     }
     const __signup = () =>{
         navigation.navigate("SignUp");
