@@ -252,25 +252,6 @@ def get_current_time():
 
 @app.route('/upload', methods=['POST'])
 def upload():
-    # print("hi")
-    # print(request)
-    # print("hi")
-    # pic = request.files['pic']
-    # if not pic:
-    #     return 'No pic uploaded!', 400
-
-    # filename = secure_filename(pic.filename)
-    # mimetype = pic.mimetype
-    # if not filename or not mimetype:
-    #     return 'Bad upload!', 400
-
-    # pic.save(os.path.join('./uploads', filename))
-
-    # img = Img(img=pic.read(), name=filename, mimetype=mimetype)
-    # db.session.add(img)
-    # db.session.commit()
-
-    # return {'messaage':'Img Uploaded!'}
     if(request.method == "POST"):
         bytesOfImage = request.get_data()
         with open('image.jpeg', 'wb') as out:
@@ -296,7 +277,7 @@ def image():
         with open(imgPath, 'wb') as out:
             out.write(bytesOfImage)
         ans = predict(imgPath)
-        remedy = "help"
+        remedy = "When planting, use only certified disease-free seed or treated seed. Remove and destroy all crop debris post-harvest. Sanitize the greenhouse between crop seasons. Use fans and avoid overhead watering to minimize leaf wetness. Also, stake and prune plants to increase ventilation."
         user = mongo.db.users
         user_id = user.insert({'filename': (timeStr+'.jpeg'), 'result': ans, 'remedy':remedy})
         return jsonify({'mess':True, 'result':ans, 'remedy':remedy})

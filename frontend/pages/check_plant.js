@@ -220,47 +220,52 @@ const ImagePreview = ({ photo, reselectPhoto, savePhoto }) => {
 
 const Results = ({ photo, details }) => {
   return (
-    <View style={{
-      flex: 1,
-      alignSelf: 'stretch',
-      backgroundColor: 'rgba(255,255,255,0)',
-      paddingLeft: 60,
-      paddingRight: 60,
-      flexDirection: 'column'
-    }}>
-      <View style={{ flex: 3 / 4, marginTop: 10, padding: 5 }}>
+    <ImageBackground
+      source={require('./b3.jpg')}
+      style={styles.back}>
+      <View style={{
+        flex: 1,
+        alignSelf: 'stretch',
+        backgroundColor: 'rgba(255,255,255,0)',
+        paddingLeft: 60,
+        paddingRight: 60,
+        flexDirection: 'column'
+      }}>
+        <View style={{ flex: 3 / 4, marginTop: 10, padding: 5 }}>
 
-        <ImageBackground
-          style={{ width: '100%', height: '100%' }}
-          resizeMode='contain'
-          source={{ uri: photo && photo.uri }}
+          <ImageBackground
+            style={{ width: '100%', height: '100%' }}
+            resizeMode='contain'
+            source={{ uri: photo && photo.uri }}
 
-        />
-      </View>
-      <View
-        style={{
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: 5
-        }}
-      >
-        <Text
+          />
+        </View>
+        <View
           style={{
-            color: '#3a3b3c',
-            fontSize: 20
-          }}>
-          {details.result}
-        </Text>
-        <Text
-          style={{
-            color: '#3a3b3c',
-            fontSize: 15
-          }}>
-          {details.remedy}
-        </Text>
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: 5.
+          }}
+        >
+          <Text
+            style={{
+              color: '#3a3b3c',
+              fontSize: 20,
+              fontWeight: 'bold'
+            }}>
+            {details.result}
+          </Text>
+          <Text
+            style={{
+              color: '#3a3b3c',
+              fontSize: 15
+            }}>
+            {details.remedy}
+          </Text>
+        </View>
       </View>
-    </View>
+    </ImageBackground>
   )
 }
 
