@@ -24,13 +24,13 @@ export default function CameraPage() {
     const photo = await camera.takePictureAsync()
     console.log(photo)
     setPreviewVisible(true)
-    //setStartCamera(false)
     setCapturedImage(photo)
   }
   const __savePhoto = () => {
       // SendFileToBackend(capturedImage.uri)
       toServer(capturedImage);
   }
+  
   const __retakePicture = () => {
     setCapturedImage(null)
     setPreviewVisible(false)

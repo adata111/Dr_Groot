@@ -2,20 +2,7 @@ import 'react-native-gesture-handler';
 import * as React from "react";
 import { useEffect, useState } from 'react';
 import { StyleSheet,Text, View, TouchableOpacity, ImageBackground} from "react-native";
-import {Camera} from 'expo-camera';
 export default function Home({ navigation }){
-
-    const [startCamera, setStartCamera] = React.useState(false)
-    const __startCamera = async () => {
-        const {status} = await Camera.requestPermissionsAsync()
-        console.log(status)
-        if (status === 'granted') {
-        //   setStartCamera(true);
-          navigation.navigate('Camera');
-        } else {
-          Alert.alert('Access denied')
-        }
-      }
     
     const __startGallery = async () => {
       navigation.navigate('Gallery');

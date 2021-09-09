@@ -1,5 +1,5 @@
 import time
-from flask import Flask, Response, request
+from flask import Flask, Response, request, jsonify
 from flask_cors import CORS #comment this on deployment
 from PIL import Image
 import torch
@@ -288,7 +288,9 @@ def image():
         bytesOfImage = request.get_data()
         timeStr = time.ctime()
         "".join(timeStr.split())
-        with open('./uploads/'+timeStr + '.jpeg', 'wb') as out:
+        imgPath = './uploads/'+timeStr + '.jpeg';
+        with open(imgPath, 'wb') as out:
             out.write(bytesOfImage)
-        return "Image read"
+        ans = predict(imgPath)
+        return jsonify({'mess':True, 'result':ans, 'remedy':"help"})
 

@@ -1,8 +1,3 @@
-// import React, { useState, useEffect } from 'react';
-// import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-// import { Camera } from 'expo-camera';
-// import Home from 'home.js';
-
 
 import 'react-native-gesture-handler';
 import * as React from "react";
@@ -14,6 +9,8 @@ import CameraPage from './pages/camera.js';
 import Gallery from './pages/gallery.js';
 import Home from './pages/home.js';
 import CheckPlant from './pages/check_plant.js';
+import Login from './pages/login.js';
+import Signup from './pages/signup.js';
 
 const Stack = createStackNavigator();
 
