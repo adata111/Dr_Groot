@@ -1,5 +1,5 @@
 import time
-from flask import Flask, Response, request, jsonify
+from flask import Flask, Response, request, jsonify, session, redirect, url_for, render_template, json
 from flask_cors import CORS #comment this on deployment
 from PIL import Image
 import torch
@@ -13,19 +13,23 @@ import torch.optim as optim
 import torch.nn.functional as F
 import os
 import pickle
+import bcrypt
 from pathlib import Path
-
+import json
 from werkzeug.utils import secure_filename
 from db import db_init, db
 from models import Img
 from flask_pymongo import PyMongo
+from pymongo import MongoClient
+import urllib.parse
 
 # os.system("wget https://github.com/nandakishormpai2001/Plant_Disease_Detector/raw/main/model/dataset.zip")
 # os.system("unzip dataset.zip")
 # os.system("pip install -r requirements.txt") 
 app = Flask(__name__)
-app.config['MONGO_DBNAME'] = 'restdb'
-app.config['MONGO_URI'] = 'mongodb://localhost:27017/restdb'
+app.config['MONGO_DBNAME'] = 'plantbeat'
+app.secret_key = 'super secret key'
+app.config['MONGO_URI'] = 'mongodb://127.0.0.1:27017/plantbeat'
 
 mongo = PyMongo(app)
 
@@ -278,7 +282,41 @@ def image():
             out.write(bytesOfImage)
         ans = predict(imgPath)
         remedy = "When planting, use only certified disease-free seed or treated seed. Remove and destroy all crop debris post-harvest. Sanitize the greenhouse between crop seasons. Use fans and avoid overhead watering to minimize leaf wetness. Also, stake and prune plants to increase ventilation."
-        user = mongo.db.users
-        user_id = user.insert({'filename': (timeStr+'.jpeg'), 'result': ans, 'remedy':remedy})
+        plant = mongo.db.plants
+        user_id = plant.insert({'filename': ('../../backend/uploads/' + timeStr +'.jpeg'), 'result': ans, 'remedy':remedy})
         return jsonify({'mess':True, 'result':ans, 'remedy':remedy})
 
+@app.route('/gallery', methods=['GET'])
+def gallery():
+    plants = mongo.db.plants
+    cursor = plants.find({})
+    return jsonify({'data':cursor})
+
+@app.route('/login', methods=['POST'])
+def login():
+    users = mongo.db.users
+    login_user = users.find_one({'username' : request.form['username']})
+
+    if login_user:
+        if bcrypt.hashpw(request.form['password'].encode('utf-8'), login_user['password'].encode('utf-8')) == login_user['password'].encode('utf-8'):
+            session['username'] = request.form['username']
+            return jsonify({'res':'Logged in'}, 200)
+
+    return jsonify({'error':'Invalid username/password'})
+
+@app.route('/register', methods=['POST', 'GET'])
+def register():
+    if request.method == 'POST':
+        print(request.form)
+        users = mongo.db.users
+        existing_user = users.find_one({'username' : request.form['username']})
+
+        if existing_user is None:
+            hashpass = bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt())
+            users.insert({'username' : request.form['username'], 'password' : hashpass})
+            session['username'] = request.form['username']
+            return jsonify({'error':'Registered successfully'}, 200)
+        
+        return jsonify({'error':'Username already exists'})
+
+    # return 'registered successfully'
