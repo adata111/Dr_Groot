@@ -1,8 +1,6 @@
 ## Dr Groot 
 
-The application aims to help the user to take better care of garden plants​
-This involves diagnosing the plant disease by capturing and analyzing an image of the affected plant​
-Created as a part of IIIT-H Ecell Summer up 2021.
+The application aims to help the user to take better care of garden plants. This involves diagnosing the plant disease by capturing and analyzing an image of the affected plant. This was the winning submission at IIIT-H Ecell Summer up 2021.
 Frontend has been coded in React Native and backend using Flask and the database used is MongoDB.
 
 ### How to run:
